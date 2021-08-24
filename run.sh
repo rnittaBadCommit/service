@@ -13,6 +13,8 @@ kubectl delete -f srcs/ftps/ftps.yaml
 kubectl delete -f srcs/grafana/grafana.yaml
 kubectl delete -f srcs/influxdb/influxdb.yaml
 
+echo -e "\n\ndelete done\n"
+
 echo 'user42' | sudo -S apt-get install lftp
 
 # images

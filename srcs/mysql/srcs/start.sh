@@ -62,6 +62,6 @@ EOF
 fi
 # console: (Windows のみ。)このオプションが使用されている場合、エラーログメッセージを stderr に書き込み、stdout. mysqld はコンソールウィンドウを閉じません。
 # exec 外部プロセスで実行。 pkillしても残ってしまう
-telegraf -config /etc/telegraf.conf &  # maybe it shouldnt be the last
 /usr/bin/mysqld --user=root
 
+telegraf -config /etc/telegraf.conf &  # maybe it shouldnt be the last
