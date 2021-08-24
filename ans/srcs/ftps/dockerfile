@@ -1,0 +1,32 @@
+FROM basecamp
+
+# -S 指定されたシェルの存在や妥当性を確認しません。
+# -G -G groups 追加グループ。 このオプションは、ユーザに付与する追加グループを指定します。 ユーザは、ログイングループに加え、これらのグループのメンバです。
+# chpasswd = username:password
+RUN adduser -D ftp-user \
+  && echo 'ftp-user:ftp-user' | chpasswd
+
+# FTPで接続したときにデフォルトでたどり着くディレクトリ
+RUN mkdir -p /var/www/ftp_dir &&\
+	chown ftp-user /var/www/ftp_dir &&\
+	chmod 755 /var/www/ftp_dir
+
+RUN mkdir -p /etc/vsftpd/user_conf
+
+RUN touch /var/log/vsftpd.log
+
+COPY start.sh /tmp/start.sh
+COPY vsftpd.conf /etc/vsftpd/vsftpd.conf
+# COPY ftp-user /etc/vsftpd/user_conf/ftp-user
+COPY chroot_list /etc/vsftpd/chroot_list
+COPY telegraf.conf /etc/telegraf.conf
+COPY livenessprobe.sh /livenessprobe.sh
+
+RUN chmod -R 777 /tmp /var /etc
+
+# port
+EXPOSE 20 21 60000
+
+WORKDIR /
+
+CMD [ "/tmp/start.sh" ]

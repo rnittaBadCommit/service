@@ -1,0 +1,15 @@
+FROM	basecamp
+
+COPY	srcs/start.sh /tmp/start.sh
+COPY	srcs/mydefault.ini /grafana/mydefault.ini
+COPY	srcs/telegraf.conf /etc/telegraf.conf
+COPY	srcs/dashboards.json /grafana/conf/provisioning/dashboards/
+COPY	srcs/dashboards.yaml /grafana/conf/provisioning/dashboards/
+COPY	srcs/datasources.yaml /grafana/conf/provisioning/datasources/
+
+COPY	srcs/livenessprobe.sh /livenessprobe.sh
+
+RUN		chmod -R 755 /tmp
+
+EXPOSE	3000
+CMD		/tmp/start.sh

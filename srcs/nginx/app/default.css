@@ -1,0 +1,68 @@
+.normal{
+    color:black;
+    text-decoration: none;
+}
+
+.end{
+    margin-bottom:30px;
+}
+
+.site-name{
+    font-size:44px;
+    text-align:center;
+    text-decoration: none;
+    color: red;
+}
+
+.site-name *{
+    font-size:44px;
+    text-align:center;
+    text-decoration: none;
+    color: red;
+}
+
+
+
+.title{
+    font-size:40px;
+    font-family:Ms Gothic;
+    margin-left:5%;
+    margin-top:20px;
+    margin-bottom: 40px;
+    font-weight   : bold; 
+}
+
+.content{
+    margin-bottom:25px;
+}
+
+.theme{
+    font-size:25px;
+    font-family: MS Gothic;
+    font-weight: bold; 
+    margin-top:13px;
+    margin-bottom:8px;
+    margin-left: 8%;
+    margin-right: 3%;
+}
+
+.text{
+    font-size:15px;
+    font-family: Meiryo;
+    margin-left:10%;
+    margin-right: 3%;
+}
+
+.inner-link {
+    font-size:20px;
+    font-family:Meiryo;
+    text-decoration: none;
+}
+
+
+.div-normal{
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-left:5%;
+    margin-right:3%;
+}

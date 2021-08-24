@@ -1,0 +1,53 @@
+
+# https://kubernetes.io/ja/docs/tasks/run-application/run-single-instance-stateful-application/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: mymysql
+        imagePullPolicy: Never
+        name: mysql
+        livenessProbe:
+          exec:
+            command: ["sh", "./livenessprobe.sh"]
+          initialDelaySeconds: 30 # コンテナ起動してから確認を開始するまで
+          timeoutSeconds: 10 # timeoutを判定する秒数 default:1
+          periodSeconds: 30 # proveの間隔 default : 10
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          value: root
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /app
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql # wp-config.phpの名前解決で使われる
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: mysql
+  clusterIP: None

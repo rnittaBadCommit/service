@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+ name: influxdb
+spec:
+ ports:
+ - port: 8086
+ selector:
+   app: influxdb
+ clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: influxdb
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: influxdb
+ strategy:
+   type: Recreate
+ template:
+   metadata:
+     labels:
+       app: influxdb
+   spec:
+     containers:
+     - image: myinfluxdb
+       imagePullPolicy: Never
+       name: influxdb
+       livenessProbe:
+         exec:
+           command: ["sh", "./livenessprobe.sh"]
+         initialDelaySeconds: 30 # コンテナ起動してから確認を開始するまで
+         timeoutSeconds: 10
+         periodSeconds: 30
+       ports:
+       - containerPort: 8086
+         name: influxdb
+       volumeMounts:
+       - name: influxdb-persistent-storage
+         mountPath: /var/lib/influxdb
+     volumes:
+     - name: influxdb-persistent-storage
+       persistentVolumeClaim:
+         claimName: influxdb-pv-claim

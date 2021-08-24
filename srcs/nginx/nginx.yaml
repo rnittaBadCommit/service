@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-metallb
+  annotations:
+   metallb.universe.tf/allow-shared-ip: "ft_services"
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx-metallb
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+    - name: https
+      port: 443
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-metallb
+  name: nginx-metallb
+spec:
+  selector:
+    matchLabels:
+      app: nginx-metallb
+  template:
+    metadata:
+      labels:
+        app: nginx-metallb
+    spec:
+      containers:
+      - image: mynginx
+        imagePullPolicy: Never
+        name: nginx-metallb
+        livenessProbe:
+          exec:
+            command: ["sh", "./livenessprobe.sh"]
+          initialDelaySeconds: 30 # コンテナ起動してから確認を開始するまで
+          timeoutSeconds: 10
+          periodSeconds: 30
+        ports:
+        - containerPort: 80

@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+ name: grafana
+ annotations:
+   metallb.universe.tf/allow-shared-ip: "ft_services"
+spec:
+ type: LoadBalancer
+ selector:
+   app: grafana
+ ports:
+   - name: grafana
+     port: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ labels:
+   app: grafana
+ name: grafana
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     app: grafana
+ template: # podのtemplate
+   metadata:
+     labels:
+       app: grafana
+   spec:
+     containers:
+     - image: mygrafana
+       imagePullPolicy: Never
+       name: grafana
+       livenessProbe:
+         exec:
+           command: ["sh", "./livenessprobe.sh"]
+         initialDelaySeconds: 30 # コンテナ起動してから確認を開始するまで
+         timeoutSeconds: 10
+         periodSeconds: 30
+       ports:
+       - containerPort: 3000
