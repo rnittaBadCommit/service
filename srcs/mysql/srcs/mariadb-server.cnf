@@ -12,8 +12,8 @@ port = 3306
 
 
 
-#datadir = /app/mysql
-datadir = /app/
+datadir = /app/mysql
+#datadir = /app/
 
 
 

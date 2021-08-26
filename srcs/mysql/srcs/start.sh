@@ -25,8 +25,8 @@ else
  fi
 # ${ENV:-"word"} === (ENV?)ENV:word
  MYSQL_DATABASE=${MYSQL_DATABASE:-"services"}
- MYSQL_USER=${MYSQL_USER:-"user42"}
- MYSQL_PASSWORD=${MYSQL_PASSWORD:-"user42"}
+ MYSQL_USER=${MYSQL_USER:-"rnitta"}
+ MYSQL_PASSWORD=${MYSQL_PASSWORD:-"pass"}
 
  # mktemp make a random name file
  # /tmp/tmp.LCOCdE
@@ -62,6 +62,7 @@ EOF
 fi
 # console: (Windows のみ。)このオプションが使用されている場合、エラーログメッセージを stderr に書き込み、stdout. mysqld はコンソールウィンドウを閉じません。
 # exec 外部プロセスで実行。 pkillしても残ってしまう
+telegraf -config /etc/telegraf.conf &  # maybe it shouldnt be the last
+
 /usr/bin/mysqld --user=root
 
-telegraf -config /etc/telegraf.conf &  # maybe it shouldnt be the last

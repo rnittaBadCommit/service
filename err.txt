@@ -1,0 +1,25 @@
+changed basecamp/dockerfile
+
+> kubectl logs deploy/nginx
+	Error from server (NotFound): deployments.apps "nginx" not found
+
+> kubectl logs nginx-metallb-657db6c85-vvmlg
+	mynginx start
+	2021-08-25T09:09:11Z I! Starting Telegraf 1.17.0
+	2021-08-25T09:09:11Z I! Loaded inputs: cpu disk diskio kernel mem processes swap system
+	2021-08-25T09:09:11Z I! Loaded aggregators: 
+	2021-08-25T09:09:11Z I! Loaded processors: 
+	2021-08-25T09:09:11Z I! Loaded outputs: influxdb
+	2021-08-25T09:09:11Z I! Tags enabled: host=influxdb
+	2021-08-25T09:09:11Z I! [agent] Config: Interval:10s, Quiet:false, Hostname:"influxdb", Flush Interval:10s
+	2021-08-25T09:09:11Z W! [outputs.influxdb] When writing to [http://influxdb:8086]: database "nginx" creation failed: Post "http://influxdb:8086/query": dial tcp: lookup influxdb on 10.96.0.10:53: no such host
+	2021-08-25T09:09:21Z E! [outputs.influxdb] When writing to [http://influxdb:8086]: Post "http://influxdb:8086/write?db=nginx": dial tcp: lookup influxdb on 10.96.0.10:53: no such host
+	2021-08-25T09:09:21Z E! [agent] Error writing to outputs.influxdb: could not write any address
+	2021-08-25T09:09:31Z E! [outputs.influxdb] When writing to [http://influxdb:8086]: Post "http://influxdb:8086/write?db=nginx": dial tcp: lookup influxdb on 10.96.0.10:53: no such host
+	2021-08-25T09:09:31Z E! [agent] Error writing to outputs.influxdb: could not write any address
+	172.17.0.1 - - [25/Aug/2021:09:11:09 +0000] "uri:/index.html request_uri:/ host:192.168.10.10 document_root:/var/lib/nginx/html fastcgi_script_name:/index.html"
+	172.17.0.1 - - [25/Aug/2021:09:11:09 +0000] "uri:/default.css request_uri:/default.css host:192.168.10.10 document_root:/var/lib/nginx/html fastcgi_script_name:/default.css"
+	172.17.0.1 - - [25/Aug/2021:09:11:09 +0000] "uri:/favicon.ico request_uri:/favicon.ico host:192.168.10.10 document_root:/var/lib/nginx/html fastcgi_script_name:/favicon.ico"
+	172.17.0.1 - - [25/Aug/2021:09:11:11 +0000] "uri:/detarame-mamechisiki/detarame-mamechisiki.html request_uri:/detarame-mamechisiki/detarame-mamechisiki.html host:192.168.10.10 document_root:/var/lib/nginx/html fastcgi_script_name:/detarame-mamechisiki/detarame-mamechisiki.html"
+
+

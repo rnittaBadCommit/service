@@ -3,9 +3,9 @@ FROM	basecamp
 COPY	srcs/start.sh /tmp/start.sh
 
 COPY	srcs/default.conf /etc/nginx/http.d/
-COPY	srcs/config.inc.php /var/www/phpmyadmin
+COPY	srcs/myconfig.inc.php /var/www/phpmyadmin/
 
-COPY	srcs/info.php /var/www/phpmyadmin
+COPY	srcs/info.php /var/www/phpmyadmin/
 
 COPY	srcs/www.conf /etc/php7/php-fpm.d/
 

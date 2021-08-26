@@ -10,8 +10,10 @@ RUN		set -ex; \
 		openrc mandoc man-pages \
 		vsftpd libc6-compat influxdb telegraf;
 
-
-
+#############################
+RUN		apk add vsftpd libc6-compat influxdb;
+RUN		apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/v3.13/community
+#############################
 
 # SSL
 RUN		mkdir -p /etc/nginx/ssl
@@ -26,6 +28,7 @@ RUN		openssl req -newkey rsa:4096 \
                 -subj "/C=JP/ST=Tokyo/L=Shinjukuku/O=University/OU=IT Department/CN=www.example.com";
 
 # install phpmyadmin
+WORKDIR	/tmp
 RUN		set -eux; \
 			wget https://files.phpmyadmin.net/phpMyAdmin/5.0.2/phpMyAdmin-5.0.2-all-languages.tar.gz; \
 			tar -xvf phpMyAdmin-5.0.2-all-languages.tar.gz; \
@@ -61,4 +64,4 @@ RUN		rm -rf /var/cache/apk/*
 
 WORKDIR	/
 
-CMD	tail -f /dev/null
+#CMD	tail -f /dev/null

@@ -17,6 +17,14 @@ echo -e "\n\ndelete done\n"
 
 echo 'user42' | sudo -S apt-get install lftp
 
+if [ ! -d "/data/ftp-user" ]; then
+ sudo mkdir -p /data/ftp-user
+ sudo chmod 777 /data/ftp-user
+ echo "[run.sh] /data/ftp-user made."
+else
+ echo "[run.sh] /data/ftp-user already exist."
+fi
+
 # images
 docker build -t basecamp srcs/basecamp/
 docker build -t mynginx srcs/nginx/
@@ -43,14 +51,6 @@ kubectl apply -f srcs/mysql/mysql.yaml
 
 kubectl apply -f srcs/wordpress/wordpress.yaml
 
-
-if [ ! -d "/data/ftp-user" ]; then
- sudo mkdir -p /data/ftp-user
- sudo chmod 777 /data/ftp-user
- echo "[run.sh] /data/ftp-user made."
-else
- echo "[run.sh] /data/ftp-user already exist."
-fi
 
 
 
