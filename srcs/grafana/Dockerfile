@@ -9,7 +9,7 @@ COPY	srcs/datasources.yaml /grafana/conf/provisioning/datasources/
 
 COPY	srcs/livenessprobe.sh /livenessprobe.sh
 
-RUN		chmod -R 755 /tmp
+RUN		chmod -R 755 /tmp /grafana/conf
 
 EXPOSE	3000
 CMD		/tmp/start.sh

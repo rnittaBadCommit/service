@@ -3,7 +3,7 @@ FROM	basecamp
 COPY	srcs/start.sh /tmp/start.sh
 
 COPY	srcs/default.conf /etc/nginx/http.d/
-COPY	srcs/myconfig.inc.php /var/www/phpmyadmin/
+COPY	srcs/config.inc.php /var/www/phpmyadmin/
 
 #COPY	srcs/info.php /var/www/phpmyadmin/
 
@@ -17,7 +17,7 @@ RUN		chmod -R 755 /var /etc /tmp; \
 			chmod -R 777 /tmp /var/log/nginx; \
 			chown -R nginx:nginx /etc/nginx;
 
-expose	5000
+EXPOSE	5000
 
 
-CMD	/tmp/start.sh
+CMD		/tmp/start.sh
