@@ -1,2 +1,20 @@
 test
 this is the first my ftps!
+
+
+
+
+
+
+
+ans/srcs/phpmyadmin/default.conf:21:			fastcgi_pass 127.0.0.1:9000;
+ans/srcs/wordpress/default.conf:23:			fastcgi_pass 127.0.0.1:9000;
+ans/srcs/wordpress/www.conf:10:listen = 127.0.0.1:9000
+
+
+srcs/grafana/srcs/mydefault.ini:918:ha_engine_address = "127.0.0.1:6379"
+srcs/phpmyadmin/srcs/default.conf:19:			fastcgi_pass 127.0.0.1:9000;
+srcs/wordpress/srcs/default.conf:21:			fastcgi_pass 127.0.0.1:9000;
+srcs/wordpress/srcs/www.conf:36:listen = 127.0.0.1:9000
+srcs/wordpress/srcs/www.conf:63:;listen.allowed_clients = 127.0.0.1
+

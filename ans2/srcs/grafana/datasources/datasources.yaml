@@ -1,0 +1,62 @@
+# GrafanaのDashboard等をファイルで管理する
+# https://qiita.com/chroju/items/f7df76c2cd11b935a0a5
+
+apiVersion: 1
+
+datasources:
+  - name: ftps
+    type: influxdb
+    access: proxy
+    orgId: 1
+    url: http://influxdb:8086
+    database: ftps
+    editable: true # GUI edit
+    version: 1
+  - name: grafana
+    type: influxdb
+    access: proxy
+    orgId: 1
+    url: http://influxdb:8086
+    database: grafana
+    editable: true # GUI edit
+    version: 1
+  - name: influxdb
+    type: influxdb
+    access: proxy
+    orgId: 1
+    url: http://influxdb:8086
+    database: influxdb
+    editable: true # GUI edit
+    version: 1
+  - name: mysql
+    type: influxdb
+    access: proxy
+    orgId: 1
+    url: http://influxdb:8086
+    database: mysql
+    editable: true # GUI edit
+    version: 1
+  - name: nginx
+    type: influxdb
+    access: proxy
+    orgId: 1
+    url: http://influxdb:8086
+    database: nginx
+    editable: true # GUI edit
+    version: 1
+  - name: phpmyadmin
+    type: influxdb
+    access: proxy
+    orgId: 1
+    url: http://influxdb:8086
+    database: phpmyadmin
+    editable: true # GUI edit
+    version: 1
+  - name: wordpress
+    type: influxdb
+    access: proxy
+    orgId: 1
+    url: http://influxdb:8086
+    database: wordpress
+    editable: true # GUI edit
+    version: 1

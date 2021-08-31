@@ -1,58 +1,58 @@
 apiVersion: v1
 kind: Service
 metadata:
- name: ftps
- annotations:
-   metallb.universe.tf/allow-shared-ip: "ft_services"
+  name: ftps
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "ft_services"
 spec:
- type: LoadBalancer
- selector: # DeploymentのPodのlabelとセット
-   app: ftps
- ports:
-   - name: ftps-datapath
-     port: 20
-   - name: ftps
-     port: 21
-   - name: pasv
-     port: 60000
+  type: LoadBalancer
+  selector: # DeploymentのPodのlabelとセット
+    app: ftps
+  ports:
+    - name: ftps-datapath
+      port: 20
+    - name: ftps
+      port: 21
+    - name: pasv
+      port: 60000
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
- labels:
-   app: ftps
- name: ftps
+  labels:
+    app: ftps
+  name: ftps
 spec:  # podの概要
- replicas: 1
- selector:
-   matchLabels:
-     app: ftps
- template:
-   metadata:
-     labels:
-       app: ftps
-   spec:
-     containers:
-     - image: myftps
-       imagePullPolicy: Never
-       name: ftps
-       livenessProbe:
-         exec:
-           command: ["sh", "./livenessprobe.sh"]
-         initialDelaySeconds: 30 # コンテナ起動してから確認を開始するまで
-         timeoutSeconds: 10
-         periodSeconds: 30
-       ports:
-       - containerPort: 20
-         name: ftps-datapath
-       - containerPort: 21
-         name: ftps
-       - containerPort: 60000
-         name: pasv
-       volumeMounts:
-       - name: ftps-persistent-storage
-         mountPath: /home
-     volumes:
-     - name: ftps-persistent-storage
-       persistentVolumeClaim:
-         claimName: ftps-pv-claim
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ftps
+  template:
+    metadata:
+      labels:
+        app: ftps
+    spec:
+      containers:
+      - image: myftps
+        imagePullPolicy: Never
+        name: ftps
+        livenessProbe:
+          exec:
+            command: ["sh", "./livenessprobe.sh"]
+          initialDelaySeconds: 30 # コンテナ起動してから確認を開始するまで
+          timeoutSeconds: 10
+          periodSeconds: 30
+        ports:
+        - containerPort: 20
+          name: ftps-datapath
+        - containerPort: 21
+          name: ftps
+        - containerPort: 60000
+          name: pasv
+        volumeMounts:
+        - name: ftps-persistent-storage
+          mountPath: /home
+      volumes:
+      - name: ftps-persistent-storage
+        persistentVolumeClaim:
+          claimName: ftps-pv-claim

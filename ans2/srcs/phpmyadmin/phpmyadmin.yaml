@@ -1,0 +1,45 @@
+# https://kubernetes.io/ja/docs/concepts/workloads/controllers/deployment/
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: phpmyadmin # このラベルは全部のpodにつけられる
+  name: phpmyadmin  # deploymentの名前
+spec:  # podの概要
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phpmyadmin
+  template: # podのtemplate
+    metadata:
+      labels:
+        app: phpmyadmin # metadata.labels.appと合わせたほうがいいかも
+    spec:
+      containers:
+      - image: mypma
+        imagePullPolicy: Never
+        name: phpmyadmin
+        livenessProbe:
+          exec:
+            command: ["sh", "./livenessprobe.sh"]
+          initialDelaySeconds: 30 # コンテナ起動してから確認を開始するまで
+          timeoutSeconds: 10 # timeoutを判定する秒数 default:1
+          periodSeconds: 30 # proveの間隔 default : 10
+        ports:
+        - containerPort: 5000 # コンテナに外部からアクセスするポート。Exposeと同じポート。ここは無しでもいけるかも
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpmyadmin # これがURLのpathになるかも。サービス名
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "ft_services"
+spec:
+  type: LoadBalancer
+  selector: # DeploymentのPodのlabelとセット
+    app: phpmyadmin
+  ports:
+    - name: phpmyadmin #
+      port: 5000 #     targetPort: 5000 # targetPort : Serviceで転送する先のポートを指定する。またはPod内で定義されているNamedPortを指定する。指定されなかった場合、 port で指定されたポートを利用する。

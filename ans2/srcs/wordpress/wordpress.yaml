@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: wordpress # このラベルは全部のpodにつけられる
+  name: wordpress  # deploymentの名前
+spec:  # podの概要
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+  template: # podのtemplate
+    metadata:
+      labels:
+        app: wordpress # metadata.labels.appと合わせたほうがいいかも
+    spec:
+      containers:
+      - image: mywordpress
+        imagePullPolicy: Never
+        name: wordpress
+        livenessProbe:
+          exec:
+            command: ["sh", "./livenessprobe.sh"]
+          initialDelaySeconds: 30 # コンテナ起動してから確認を開始するまで
+          timeoutSeconds: 10 # timeoutを判定する秒数 default:1
+          periodSeconds: 30 # proveの間隔 default : 10
+        ports:
+        - containerPort: 5050 # コンテナに外部からアクセスするポート。Exposeと同じポート。ここは無しでもいけるかも
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "ft_services"
+spec:
+  type: LoadBalancer
+  selector: # DeploymentのPodのlabelとセット
+    app: wordpress
+  ports:
+    - name: wordpress # portsが複数あった場合に固有のnameが必要。1つなら別にいらない。
+      port: 5050 #     targetPort: 5000 # targetPort : Serviceで転送する先のポートを指定する。またはPod内で定義されているNamedPortを指定する。指定されなかった場合、 port で指定されたポートを利用する。
