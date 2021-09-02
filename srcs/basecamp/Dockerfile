@@ -2,13 +2,13 @@ FROM	alpine:3.13
 
 # install tools
 RUN		set -ex; \
-		apk update; \
-		apk add nginx openssl wget curl vim openrc; \
-		mkdir -p /run/nginx; \
-		apk add mysql mysql-client \
-		php7-phar php7-fpm php7-common php7-session php7-iconv php7-json php7-gd php7-curl php7-xml php7-mysqli php7-imap php7-cgi fcgi php7-pdo php7-pdo_mysql php7-soap php7-xmlrpc php7-posix php7-mcrypt php7-gettext php7-ldap php7-ctype php7-dom \ 
-		openrc mandoc man-pages \
-		vsftpd libc6-compat influxdb;
+			apk update; \
+			apk add nginx openssl wget curl vim openrc; \
+			mkdir -p /run/nginx; \
+			apk add mysql mysql-client \
+			php7-phar php7-fpm php7-common php7-session php7-iconv php7-json php7-gd php7-curl php7-xml php7-mysqli php7-imap php7-cgi fcgi php7-pdo php7-pdo_mysql php7-soap php7-xmlrpc php7-posix php7-mcrypt php7-gettext php7-ldap php7-ctype php7-dom \ 
+			openrc mandoc man-pages \
+			vsftpd libc6-compat influxdb;
 
 #############################
 RUN		apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/v3.13/community
@@ -50,15 +50,13 @@ RUN		set -ex; \
 			mv grafana/ /;
 
 # wp-cli https://wp-cli.org/ja/
-# wordpressのユーザ登録を、コマンドで行えるツール
 RUN		set -ex; \
 			curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar; \
 			chmod +x wp-cli.phar; \
 			mv wp-cli.phar /usr/local/bin/wp
 
-RUN		chmod -R 755 /tmp /etc
 
-# cache clear
+RUN		chmod -R 755 /tmp /etc
 RUN		rm -rf /var/cache/apk/*
 
 WORKDIR	/

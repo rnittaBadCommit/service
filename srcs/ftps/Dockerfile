@@ -3,7 +3,7 @@ FROM	basecamp
 RUN		adduser -D ftp-user && \
  			echo 'ftp-user:ftp-user' | chpasswd
 
-# FTPで接続したときにデフォルトでたどり着くディレクトリ
+# default dir 
 RUN		mkdir -p /var/www/ftp_dir; \
 			chown ftp-user /var/www/ftp_dir; \
 			chmod 755 /var/www/ftp_dir;
@@ -20,10 +20,8 @@ COPY	srcs/telegraf.conf /etc/telegraf.conf
 
 COPY	srcs/livenessprobe.sh /livenessprobe.sh
 
-# 書き込み権限いるかも
 RUN		chmod -R 777 /tmp /var /etc
 
-# port
 EXPOSE	20 21 60000
 
 CMD		/tmp/start.sh
