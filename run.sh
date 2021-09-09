@@ -63,3 +63,6 @@ kubectl apply -f srcs/influxdb/influxdb.yaml
 kubectl apply -f srcs/influxdb/influxdb-pv.yaml
 
 echo done!
+
+
+kubectl exec deploy/nginx-metallb -- pkill telegraf
