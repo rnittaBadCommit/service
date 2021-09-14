@@ -18,11 +18,11 @@ echo -e "\n\ndelete done\n"
 echo 'user42' | sudo -S apt-get install lftp
 
 if [ ! -d "/data/ftp-user" ]; then
- sudo mkdir -p /data/ftp-user
- sudo chmod 777 /data/ftp-user
- echo "[run.sh] /data/ftp-user made."
+	sudo mkdir -p /data/ftp-user
+	sudo chmod 777 /data/ftp-user
+	echo "[run.sh] /data/ftp-user made."
 else
- echo "[run.sh] /data/ftp-user already exist."
+	echo "[run.sh] /data/ftp-user already exist."
 fi
 
 # images
@@ -65,4 +65,4 @@ kubectl apply -f srcs/influxdb/influxdb-pv.yaml
 echo done!
 
 
-kubectl exec deploy/nginx-metallb -- pkill telegraf
+kubectl exec deploy/nginx -- pkill telegraf
