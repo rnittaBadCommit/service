@@ -16,7 +16,8 @@ spec:
       port: 443
     - name: ssh
       port: 22
-      ---
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -39,8 +40,8 @@ spec:
           livenessProbe:
             exec:
               command: ["sh", "./livenessprobe.sh"]
-          initialDelaySeconds: 30 # コンテナ起動してから確認を開始するまで
-          timeoutSeconds: 10
-          periodSeconds: 30
+            initialDelaySeconds: 30 # コンテナ起動してから確認を開始するまで
+            timeoutSeconds: 10
+            periodSeconds: 30
           ports:
             - containerPort: 80
