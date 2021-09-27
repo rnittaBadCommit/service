@@ -12,8 +12,8 @@ sudo apt install conntrack
 sudo dpkg -r --force-depends golang-docker-credential-helpers
 
 kubectl delete -f srcs/metallb/metallb-config.yaml
-#kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
-#kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
+kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
+kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
 kubectl delete -f srcs/nginx/nginx.yaml
 kubectl delete -f srcs/phpmyadmin/phpmyadmin.yaml
 kubectl delete -f srcs/mysql/mysql.yaml
@@ -45,8 +45,8 @@ docker build -t myftps srcs/ftps/
 docker build -t mygrafana srcs/grafana/
 docker build -t myinfluxdb srcs/influxdb/
 # metallb
-#kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
-#kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
 # On first install only
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
 kubectl apply -f srcs/metallb/metallb-config.yaml
