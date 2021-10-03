@@ -1,12 +1,9 @@
 #!/bin/sh
 
-
-echo 'user42' | sudo -S sysctl fs.protected_regular=0
-sudo minikube start --vm-driver=none --extra-config=apiserver.service-node-port-range=1-65535
 touch $HOME/.minikube
 touch $HOME/.kube
 touch /var/run/docker.sock
-sudo chown -R $USER:$USER $HOME/.minikube
+echo 'user42' | sudo chown -R $USER:$USER $HOME/.minikube
 sudo chmod -R 755 $HOME/.minikube
 sudo chown -R $USER:$USER $HOME/.kube
 sudo chmod -R 755 $HOME/.kube
@@ -14,6 +11,9 @@ sudo chmod -R 777 /var/run/docker.sock
 
 sudo apt install conntrack
 sudo dpkg -r --force-depends golang-docker-credential-helpers
+
+sudo -S sysctl fs.protected_regular=0
+sudo minikube start --vm-driver=none --extra-config=apiserver.service-node-port-range=1-65535
 
 kubectl delete -f srcs/metallb/metallb-config.yaml
 kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
