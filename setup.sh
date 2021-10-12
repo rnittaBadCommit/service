@@ -1,16 +1,25 @@
 #!/bin/sh
 
-touch $HOME/.minikube
-touch $HOME/.kube
-touch /var/run/docker.sock
-echo 'user42' | sudo -S chown -R $USER:$USER $HOME/.minikube
-sudo chmod -R 755 $HOME/.minikube
-sudo chown -R $USER:$USER $HOME/.kube
-sudo chmod -R 755 $HOME/.kube
-sudo chmod -R 777 /var/run/docker.sock
-
 sudo apt install conntrack
 sudo dpkg -r --force-depends golang-docker-credential-helpers
+
+sudo sysctl fs.protected_regular=0
+sudo minikube start --vm-driver=none --extra-config=apiserver.service-node-port-range=1-65535
+sudo chown -R $USER:$USER $HOME/.minikube; chmod -R 755 $HOME/.minikube
+sudo chown -R $USER:$USER $HOME/.kube; chmod -R 755 $HOME/.kube
+sudo chmod -R 777 /var/run/docker.sock
+
+
+echo 'user42' | sudo -S apt-get install lftp
+
+if [ ! -d "/data/ftp-user" ]; then
+	sudo mkdir -p /data/ftp-user
+	sudo chmod 777 /data/ftp-user
+	echo "[run.sh] /data/ftp-user made."
+else
+	echo "[run.sh] /data/ftp-user already exist."
+fi
+
 
 sudo  sysctl fs.protected_regular=0
 sudo minikube start --vm-driver=none --extra-config=apiserver.service-node-port-range=1-65535
@@ -28,16 +37,6 @@ kubectl delete -f srcs/grafana/grafana.yaml
 kubectl delete -f srcs/influxdb/influxdb.yaml
 
 echo -e "\n\ndelete done\n"
-
-echo 'user42' | sudo -S apt-get install lftp
-
-if [ ! -d "/data/ftp-user" ]; then
-	sudo mkdir -p /data/ftp-user
-	sudo chmod 777 /data/ftp-user
-	echo "[run.sh] /data/ftp-user made."
-else
-	echo "[run.sh] /data/ftp-user already exist."
-fi
 
 # images
 docker build -t basecamp srcs/basecamp/
