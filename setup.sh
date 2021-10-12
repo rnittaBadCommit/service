@@ -77,3 +77,4 @@ kubectl apply -f srcs/influxdb/influxdb-pv.yaml
 
 echo done!
 
+sudo chown -R $USER $HOME/.minikube; chmod -R u+wrx $HOME/.minikube
